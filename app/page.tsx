@@ -2,13 +2,12 @@ import { parseHosts } from "@/lib/hosts";
 import styles from "./page.module.css";
 
 const RAW_URL = "/api/hosts";
-const PAGE_URL = "/";
 const REPO_URL = "https://github.com/alex3236/github-hosts";
 
 export const dynamic = "force-dynamic";
 
-export default function Home() {
-  const { raw, updateTime, entries } = parseHosts();
+export default async function Home() {
+  const { raw, updateTime, entries } = await parseHosts();
 
   return (
     <main className={styles.main}>
@@ -27,18 +26,12 @@ export default function Home() {
 
         <section className={styles.links}>
           <a
-            href={PAGE_URL}
-            className={`${styles.linkBtn} ${styles.linkBtnPage}`}
-          >
-            🌐 网页版
-          </a>
-          <a
             href={RAW_URL}
             className={`${styles.linkBtn} ${styles.linkBtnRaw}`}
             target="_blank"
             rel="noopener noreferrer"
           >
-            📄 Raw 文本
+            📄 原始文本
           </a>
           <a
             href={REPO_URL}
@@ -56,7 +49,7 @@ export default function Home() {
             <li>
               复制下方 Hosts 内容，或直接访问{" "}
               <a href={RAW_URL} target="_blank" rel="noopener noreferrer">
-                Raw 文本
+                原始文本
               </a>{" "}
               获取原始文件。
             </li>
@@ -103,34 +96,6 @@ export default function Home() {
             <pre className={styles.hostsPre}>{raw.trimEnd()}</pre>
           </div>
         </section>
-
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>🖥️ IP 映射列表</h2>
-          <div className={styles.tableWrapper}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>IP 地址</th>
-                  <th>域名</th>
-                </tr>
-              </thead>
-              <tbody>
-                {entries.map((entry, i) => (
-                  <tr key={i}>
-                    <td className={styles.ip}>{entry.ip}</td>
-                    <td className={styles.hostname}>{entry.hostname}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <footer className={styles.footer}>
-          <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
-            {REPO_URL}
-          </a>
-        </footer>
       </div>
     </main>
   );
