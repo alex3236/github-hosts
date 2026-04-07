@@ -1,0 +1,89 @@
+{
+  "updateTime": "2026-04-07",
+  "entries": [
+    {
+      "ip": "185.199.108.154",
+      "domain": "github.githubassets.com"
+    },
+    {
+      "ip": "185.199.108.133",
+      "domain": "desktop.githubusercontent.com"
+    },
+    {
+      "ip": "185.199.109.133",
+      "domain": "camo.githubusercontent.com"
+    },
+    {
+      "ip": "140.82.114.4",
+      "domain": "github.com"
+    },
+    {
+      "ip": "140.82.113.6",
+      "domain": "api.github.com"
+    },
+    {
+      "ip": "185.199.110.133",
+      "domain": "raw.githubusercontent.com"
+    },
+    {
+      "ip": "185.199.109.133",
+      "domain": "user-images.githubusercontent.com"
+    },
+    {
+      "ip": "185.199.109.133",
+      "domain": "favicons.githubusercontent.com"
+    },
+    {
+      "ip": "185.199.110.133",
+      "domain": "avatars5.githubusercontent.com"
+    },
+    {
+      "ip": "185.199.111.133",
+      "domain": "avatars4.githubusercontent.com"
+    },
+    {
+      "ip": "185.199.110.133",
+      "domain": "avatars3.githubusercontent.com"
+    },
+    {
+      "ip": "185.199.108.133",
+      "domain": "avatars2.githubusercontent.com"
+    },
+    {
+      "ip": "185.199.108.133",
+      "domain": "avatars1.githubusercontent.com"
+    },
+    {
+      "ip": "185.199.108.133",
+      "domain": "avatars0.githubusercontent.com"
+    },
+    {
+      "ip": "185.199.111.133",
+      "domain": "avatars.githubusercontent.com"
+    },
+    {
+      "ip": "140.82.112.10",
+      "domain": "codeload.github.com"
+    },
+    {
+      "ip": "16.182.40.73",
+      "domain": "github-cloud.s3.amazonaws.com"
+    },
+    {
+      "ip": "13.107.42.16",
+      "domain": "pipelines.actions.githubusercontent.com"
+    },
+    {
+      "ip": "185.199.108.133",
+      "domain": "media.githubusercontent.com"
+    },
+    {
+      "ip": "185.199.108.133",
+      "domain": "cloud.githubusercontent.com"
+    },
+    {
+      "ip": "185.199.111.133",
+      "domain": "objects.githubusercontent.com"
+    }
+  ]
+}

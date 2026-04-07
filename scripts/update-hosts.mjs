@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 // update-hosts.mjs
-// Resolves IPv4 addresses for GitHub-related domains via DNS and writes:
-//   - hosts      (plain-text hosts file committed as cache)
-//   - README.md  (rendered from README_TEMPLATE.md pattern)
+// Resolves IPv4 addresses for GitHub-related domains via DNS and writes
+// data/hosts-cache.json as the cache consumed by the Next.js app.
 
 import dns from "node:dns/promises";
 import fs from "node:fs/promises";
@@ -79,38 +78,16 @@ async function main() {
   const entries = results.filter(Boolean);
   console.log(`\nResolved ${entries.length} / ${GITHUB_DOMAINS.length} domains.`);
 
-  // Build hosts file content
-  const hostsLines = [
-    "#Github Hosts Start",
-    `#Update Time: ${updateTime}`,
-    `#Project Address: https://github.com/alex3236/github-hosts`,
-    `#Update URL: https://raw.githubusercontent.com/alex3236/github-hosts/master/hosts`,
-    ...entries.map(({ ip, domain }) => `${ip} ${domain}`),
-    "#Github Hosts End",
-    "",
-  ];
-  const hostsContent = hostsLines.join("\n");
+  const cache = { updateTime, entries };
 
-  // Write hosts file
-  const hostsPath = path.join(ROOT, "hosts");
-  await fs.writeFile(hostsPath, hostsContent, "utf-8");
-  console.log(`\nWrote ${hostsPath}`);
-
-  // Update README.md
-  const readmePath = path.join(ROOT, "README.md");
-  let readme = await fs.readFile(readmePath, "utf-8");
-
-  // Replace the fenced code block between the 2.1 heading and the timestamp line
-  readme = readme.replace(
-    /(### 2\.1 复制下面的内容\n```bash\n)[\s\S]*?(```\n最后更新时间：`)[^\n]*/,
-    `$1${hostsContent}$2${updateTime}\``
-  );
-
-  await fs.writeFile(readmePath, readme, "utf-8");
-  console.log(`Updated ${readmePath}`);
+  const cachePath = path.join(ROOT, "data", "hosts-cache.json");
+  await fs.mkdir(path.dirname(cachePath), { recursive: true });
+  await fs.writeFile(cachePath, JSON.stringify(cache, null, 2) + "\n", "utf-8");
+  console.log(`Wrote ${cachePath}`);
 }
 
 main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
+

@@ -1,38 +1,52 @@
 import fs from "fs";
 import path from "path";
 
-export function getHostsContent(): string {
-  const hostsPath = path.join(process.cwd(), "hosts");
-  if (!fs.existsSync(hostsPath)) {
-    return "#Github Hosts Start\n#Github Hosts End\n";
-  }
-  return fs.readFileSync(hostsPath, "utf-8");
-}
-
 export interface HostsData {
   raw: string;
   updateTime: string;
   entries: { ip: string; hostname: string }[];
 }
 
-export function parseHosts(): HostsData {
-  const raw = getHostsContent();
-  const lines = raw.split("\n");
+interface HostsCache {
+  updateTime: string;
+  entries: { ip: string; domain: string }[];
+}
 
-  let updateTime = "";
-  const entries: { ip: string; hostname: string }[] = [];
-
-  for (const line of lines) {
-    const trimmed = line.trim();
-    if (trimmed.startsWith("#Update Time:")) {
-      updateTime = trimmed.replace("#Update Time:", "").trim();
-    } else if (trimmed && !trimmed.startsWith("#")) {
-      const parts = trimmed.split(/\s+/);
-      if (parts.length >= 2) {
-        entries.push({ ip: parts[0], hostname: parts[1] });
-      }
-    }
+function loadCache(): HostsCache | null {
+  const cachePath = path.join(process.cwd(), "data", "hosts-cache.json");
+  if (!fs.existsSync(cachePath)) return null;
+  try {
+    return JSON.parse(fs.readFileSync(cachePath, "utf-8")) as HostsCache;
+  } catch {
+    return null;
   }
+}
+
+export function parseHosts(): HostsData {
+  const cache = loadCache();
+
+  if (!cache) {
+    return { raw: "", updateTime: "", entries: [] };
+  }
+
+  const { updateTime, entries: cacheEntries } = cache;
+
+  const hostsLines = [
+    "#Github Hosts Start",
+    `#Update Time: ${updateTime}`,
+    "#Project Address: https://github.com/alex3236/github-hosts",
+    "#Update URL: https://raw.githubusercontent.com/alex3236/github-hosts/master/hosts",
+    ...cacheEntries.map(({ ip, domain }) => `${ip} ${domain}`),
+    "#Github Hosts End",
+  ];
+  const raw = hostsLines.join("\n") + "\n";
+
+  const entries = cacheEntries.map(({ ip, domain }) => ({ ip, hostname: domain }));
 
   return { raw, updateTime, entries };
 }
+
+export function getHostsContent(): string {
+  return parseHosts().raw;
+}
+
