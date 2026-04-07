@@ -3,6 +3,9 @@ import path from "path";
 
 export function getHostsContent(): string {
   const hostsPath = path.join(process.cwd(), "hosts");
+  if (!fs.existsSync(hostsPath)) {
+    return "#Github Hosts Start\n#Github Hosts End\n";
+  }
   return fs.readFileSync(hostsPath, "utf-8");
 }
 

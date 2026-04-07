@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "update-hosts": "node scripts/update-hosts.mjs"
   },
   "dependencies": {
     "next": "^15.3.9",
